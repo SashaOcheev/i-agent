@@ -35,9 +35,9 @@ act=noAct Take – взять клад
 
 Пример ответа от сервера (JSON):
 {
-    "text": {
-        "currentcave": {
-            "cNum": "0_0",
+	"text": {
+		"currentcave": {
+			"cNum": "0_0",
             "rowN": 0,
             "colN": 0,
             "isGold": 0,
