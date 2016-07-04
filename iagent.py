@@ -15,6 +15,7 @@ class IAgent:
         self._WStateUtilities = textDict["iagent"]["WStateUtilities"]
         self._IAStateUtilities = textDict["iagent"]["IAStateUtilities"]
         self._currentCave = currentCave
+        self._dirsUtility = self._currentCave.GetUtilities()
         self.Update(textDict, currentCave)
         self._OnRight = {"Up": "onRight", "Down": "onLeft", "Left": "upSideDn", "Right": "noAct"}
         self._OnLeft = {"Up": "onLeft", "Right": "upSideDn", "Down": "onRight", "Left": "noAct"}
@@ -31,31 +32,33 @@ class IAgent:
         self._isAgentAlive = bool(int(textDict["iagent"]["isagentalive"]))
         self._haveGold = bool(int(textDict["iagent"]["havegold"]))
         self._currentCave = currentCave
+        self._dirsUtility = self._currentCave.GetUtilities()
     
         
+    def _ChoosePassiveAct(self):
+        sortDirs = sorted(_dirsUtility.items(), key = lambda (k, val): val, reverse = True)
+        chosenAct = sortDirs[0][0]
+        if chosenAct == "Up":
+            passiveAct = self._OnTop[self._direction]
+        elif chosenAct == "Right":
+            passiveAct = self._OnRight[self._direction]
+        elif chosenAct == "Left":
+            passiveAct = self._OnLeft[self._direction]
+        elif chosenAct == "Down":
+            passiveAct = self._OnDown[self._direction]
+        return passiveAct
+
+
     def ChooseAct(self):
         if self._currentCave.IsGold():
             self._haveGold = True
             return "noAct Take"
-        dirs = self._currentCave.GetAllowableDirs()
-        
-        i = random.randint(0, len(dirs) - 1)
-        if dirs[i] == "Up":
-            passiveAct = self._OnTop[self._direction]
-            #passiveAct = self._OnTop(dirs[i])
-        elif dirs[i] == "Right":
-            passiveAct = self._OnRight[self._direction]
-           # passiveAct = self._OnRight(dirs[i])
-        elif dirs[i] == "Left":
-            passiveAct = self._OnLeft[self._direction]
-            #passiveAct = self._OnLeft(dirs[i])
-        elif dirs[i] == "Down":
-            passiveAct = self._OnDown[self._direction]
-            #passiveAct = self._OnDown(dirs[i])
-        return passiveAct + " Go"
+        return _ChoosePassiveAct() + " Go"
+
         
         
     def IsAgentAlive(self):
         return self._isAgentAlive
-        
+
+
         
