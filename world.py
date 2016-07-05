@@ -19,14 +19,15 @@ class World:
         self._isMonsterAlive = bool(int(dictText["worldinfo"]["ismonsteralive"]))
         self._isGoldFinded = bool(int(dictText["worldinfo"]["isgoldfinded"]))
         curCaveInfo = dictText["currentcave"]
-        coor = (curCaveInfo["nRow"], curCaveInfo["nCol"])
+        coor = (curCaveInfo["rowN"], curCaveInfo["colN"])
         self._caves[coor[0]][coor[1]].Update(curCaveInfo)
-        self._SetChances();  
+        self._SetUtilities()
     
-    def _SetChances(self):
+    def _SetUtilities(self):
         for i in self._caves:
             for j in i:
-                j.SetChances()
+                j.SetUtility()
+                j.SetUtilities(self._caves)
         
     def IsGoldFinded(self):
         return self._isGoldFinded

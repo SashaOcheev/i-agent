@@ -11,6 +11,13 @@ class IAgent:
 
     def __init__(self, textDict, currentCave):
         self._tiktak = 0
+        self._costs = {
+            "monster" : -100,
+            "hole" : -50,
+            "gold" : 100,
+            "step" : 1,
+            "open" : 2,
+        }
         self._aname = textDict["iagent"]["aname"]
         self._actsCostList = textDict["iagent"]["actsCostList"]
         self._WStateUtilities = textDict["iagent"]["WStateUtilities"]
@@ -22,10 +29,8 @@ class IAgent:
         self._arrowsCount = textDict["iagent"]["arrowcount"]
         self._direction = textDict["iagent"]["dir"]
         self._legsCount = textDict["iagent"]["legscount"]
-        self._isAgentAlive = bool(int(textDict["iagent"]["isagentalive"]))
-        self._haveGold = bool(int(textDict["iagent"]["havegold"]))
         self._currentCave = currentCave
-        self._dirsUtility = self._currentCave.GetUtilities()
+        self._dirsUtility = self._currentCave.GetDirsUtilities()
 
     def _ChoosePassiveAct(self):
         onRight = {"Up": "onRight", "Down": "onLeft", "Left": "upSideDn", "Right": "noAct"}

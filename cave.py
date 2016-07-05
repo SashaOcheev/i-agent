@@ -10,7 +10,15 @@ class Cave:
     def __init__(self, coor):
         self._coor = coor
         self._isVisiable = False
-        self._chances = { "monster" : 1.0 / 16.0, "hole" : 1.0 / 15.0, "gold" : 1.0 / 16.0, "step" : 1.0, "open" : 1.0}
+        self._chances = {
+            "monster" : 1.0 / 15.0,
+            "hole" : 2.0 / 15.0,
+            "gold" : 1.0 / 15.0,
+            "step" : 1.0,
+            "open" : 1.0,
+        }
+        self._utility = None
+        self._dirsUtilities = None
     
     def Update(self, caveDict):
         self._isVisiable = True
@@ -24,18 +32,36 @@ class Cave:
     def IsVisiable(self):
         return self._isVisiable
     
-    def GetAllowableDirs(self):
-        return self._dirList
-    
     def IsGold(self):
         return self._isGold
         
-    def SetChances(self):
+    def _SetChances(self):
+        pass
+    
+    def SetUtility(self, costs):
+        res = 0;
+        for key in costs.keys():
+            res += costs[key] * self._chances[key]
+        self._utility = res
+    
+    def SetUtilities(self, caves):
+        shifts = {"Up": (-1, 0), "Right": (0, 1), "Down": (-1, 0), "Left": (0, -1)}
+        coors = {key: (self._dirList[key][0] + shifts[key][0], self._dirList[key][1] + shifts[key][1]) for key in self._dirList}
+        self._dirsUtilities = {key: caves[coors[key][0]][coors[key][1]].GetUtility() for key in coors}
+    
+    def GetDirsUtilities(self, caves):
+        return self._dirsUtilities
+    
+    def GetUtility(self):
+        return self._utility
+
+    def _GetWindChance(self, cave):
+        pass
+        #self._chances["hole"] = self._chances["hole"] * sdfsf / 
         
-            
     def GetChances(self):
         return self._chances
     
     def GetCoor(self):
-        return coor
+        return self._coor
         
