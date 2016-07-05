@@ -9,7 +9,7 @@ import operator
 
 class IAgent:     
 
-    def __init__(self, textDict, currentCave):
+    def __init__(self, textDict):
         self._tiktak = 0
         self._costs = {
             "monster" : -100,
@@ -19,11 +19,6 @@ class IAgent:
             "open" : 2,
         }
         self._aname = textDict["iagent"]["aname"]
-        self._actsCostList = textDict["iagent"]["actsCostList"]
-        self._WStateUtilities = textDict["iagent"]["WStateUtilities"]
-        self._IAStateUtilities = textDict["iagent"]["IAStateUtilities"]
-        self._currentCave = currentCave
-        self.Update(textDict, currentCave)
 
     def Update(self, textDict, currentCave):
         self._arrowsCount = textDict["iagent"]["arrowcount"]
@@ -38,14 +33,18 @@ class IAgent:
         onTop = {"Right": "onLeft", "Down": "upSideDn", "Left": "onRight", "Up": "noAct"}
         onDown = {"Up": "upSideDn", "Right": "onRight", "Left": "onLeft", "Down": "noAct"}        
         changeDir = {onRight, onLeft, onTop, onDown}        
-        maxItem = max(self._dirsUtility.items(), key = operator.itemgetter(1))[0]
-        passiveAct = changeDir[maxItem][self._direction]
+        passiveAct = changeDir[self._GetMaxKey()][self._direction]
         return passiveAct
+    
+    def _GetMaxKey(self):
+        maxItem = max(self._dirsUtility.items(), key = operator.itemgetter(1))[1]
+        maxItems = []
+        for i in self._dirsUtility.keys():
+            if self._dirsUtility[i] == maxItem:
+                maxItems.append(i)
+        return maxItems[random.randint(0, len(maxItems))]
 
     def ChooseAct(self):
         if self._currentCave.IsGold():
             return "noAct Take"
         return self._ChoosePassiveAct() + " Go"
-
-    def IsAgentAlive(self):
-        return self._isAgentAlive

@@ -8,18 +8,18 @@ import cave
 
 class World:
     def __init__(self, dictText):
-        self._size = [4, 4]
+        self._size = (4, 4)
         self._newCaveOpened = 0
         self._isMonsterAlive = True
         self._isGoldFinded = False
-        self._caves = [cave.Cave([i, j]) for i in range(self._size[0]) for j in range(self._size[1])]
-        self._currentCaveCoor = None        
+        self._caves = [[cave.Cave((j, i)) for i in range(self._size[1])] for j in range(self._size[0])]
+        self._currentCaveCoor = None
        
     def Update(self, dictText):
         self._isMonsterAlive = bool(int(dictText["worldinfo"]["ismonsteralive"]))
         self._isGoldFinded = bool(int(dictText["worldinfo"]["isgoldfinded"]))
         curCaveInfo = dictText["currentcave"]
-        coor = (curCaveInfo["rowN"], curCaveInfo["colN"])
+        coor = (int(curCaveInfo["rowN"]), int(curCaveInfo["colN"]))
         self._caves[coor[0]][coor[1]].Update(curCaveInfo)
         self._SetUtilities()
     
@@ -27,10 +27,11 @@ class World:
         for i in self._caves:
             for j in i:
                 j.SetUtility()
-                j.SetUtilities(self._caves)
+                j.SetDirsUtilities(self._caves)
         
     def IsGoldFinded(self):
         return self._isGoldFinded
         
     def GetCave(self):
-        return self._currentCave
+        coor = self._currentCaveCoor
+        return self._caves[coor[0]][coor[1]]

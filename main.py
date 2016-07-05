@@ -25,7 +25,7 @@ def GetState(req):
     json_string = str(req.text)
     return json.loads(json_string)
 
-gameid = 29
+gameid = 33
 act = "noAct noAct"
 req = requests.get(MakeRequest(gameid, act))
 state = GetState(req)
