@@ -30,21 +30,38 @@ class World:
         self._currentCaveCoor = (int(curCaveInfo["rowN"]), int(curCaveInfo["colN"]))
         self.GetCave().Update(curCaveInfo)
         self._SetUtilities()
+        #self._PrintUtilities()
         self._agent.Update(dictText, self._caves)
         
     def GetAct(self):
         return self._agent.ChooseAct(self._caves)
     
+    def _SetMonsterChances(self):
+        for i in self._caves:
+            for j in i:
+                j.SetNeighborsMonsterChances(self._caves)
+        maxChance = 0;
+        for i in self._caves:
+            for j in i:
+                maxChance = max(j.GetChances()["monster"], maxChance)
+        for i in self._caves:
+            for j in i:
+                if j.GetChances()["monster"] < maxChance:
+                    j.SetChances({"monster" : 0.0})
+                elif maxChance > 0.5:
+                    j.SetChances({"monster" : 1.0})
+    
     def _SetChances(self):
         for i in self._caves:
             for j in i:
                 j.SetChances({
-                "gold" : int(not(j.IsVisiable())) * 1.0 / self._GetUnopened(),
+                "gold" : float(int(not(j.IsVisiable()))) / float(self._GetUnopened()),
                 "step" : 1.0,
                 "open" : int(not(j.IsVisiable())),
                 "monster" : 0,#TODO
                 "hole" : 0#TODO
                 })
+        self._SetMonsterChances()
 
     def _GetUnopened(self):
         res = 0;        
@@ -52,7 +69,14 @@ class World:
             for j in i:
                 res += int(j.IsVisiable())
         return res
-                
+  
+    def _PrintUtilities(self):
+        for i in self._caves:
+            s = ""
+            for j in i:
+                s += str(j.GetUtility()) + " "
+            print(s)
+        print()              
     
     def _SetUtilities(self):
         self._SetChances()

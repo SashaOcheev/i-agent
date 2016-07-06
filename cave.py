@@ -53,6 +53,30 @@ class Cave:
         )
         return {key: makeCoor(key) for key in self._dirList}
     
+    def _GetUnvisiableNeighborsCount(self, caves):
+        count = 0
+        coors = self._GetNeihborsCoor().values()
+        for coor in coors:
+            count += int(not(caves[coor[0]][coor[1]].IsVisiable()))
+        return count
+    
+    def SetNeighborsMonsterChances(self, caves):
+        if not(self.IsVisiable()):
+            return
+        if not(self._isBones):
+            return
+        count = self._GetUnvisiableNeighborsCount(caves)        
+        if not(count):
+            return
+        chance = 1.0 / float(count)
+        coors = self._GetNeihborsCoor().values()
+        for coor in coors:
+            if not(caves[coor[0]][coor[1]].IsVisiable()):
+                caves[coor[0]][coor[1]].AddToMonsterChance(chance)
+
+    def AddToMonsterChance(self, chance):
+        self._chances["monster"] += chance
+    
     def GetDirsUtilities(self, caves):
         return self._dirsUtilities
     
@@ -61,6 +85,9 @@ class Cave:
     
     def GetCoor(self):
         return self._coor
+        
+    def GetChances(self):
+        return self._chances
     
     def IsVisiable(self):
         return self._isVisiable
