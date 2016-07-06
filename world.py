@@ -14,7 +14,7 @@ class World:
             "monster" : -100,
             "hole" : -50,
             "gold" : 100,
-            "step" : 1,
+            "step" : -1,
             "open" : 2,
         }
         self._size = (4, 4)
@@ -39,9 +39,9 @@ class World:
         for i in self._caves:
             for j in i:
                 j.SetChances({
-                "gold" : 1.0 / self._GetUnopened(),
+                "gold" : int(not(j.IsVisiable())) * 1.0 / self._GetUnopened(),
                 "step" : 1.0,
-                "open" : int(j.IsVisiable()),
+                "open" : int(not(j.IsVisiable())),
                 "monster" : 0,#TODO
                 "hole" : 0#TODO
                 })

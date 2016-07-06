@@ -25,12 +25,12 @@ def GetState(req):
     return json.loads(json_string)
     
 
-gameid = 93
+gameid = 107
 act = "noAct noAct"
 currentWorld = world.World()
 fileNumber = 0;
 req = requests.get(MakeRequest(gameid, act))
-SaveState(req, "state/"+str(fileNumber) + '.txt')    
+#SaveState(req, "state/"+str(fileNumber) + '.txt')    
 state = GetState(req)
 
 while ((state["text"])):
@@ -38,6 +38,8 @@ while ((state["text"])):
     currentWorld.Update(text)
     act = currentWorld.GetAct()
     req = requests.get(MakeRequest(gameid, act))
-    SaveState(req, "state/"+str(fileNumber) + '.txt')    
+    #SaveState(req, "state/"+str(fileNumber) + '.txt')    
     state = GetState(req)
     fileNumber += 1
+
+print(fileNumber)

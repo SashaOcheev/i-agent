@@ -1,0 +1,86 @@
+{
+    "text": {
+        "currentcave": {
+            "cNum": "0_0",
+            "rowN": 0,
+            "colN": 0,
+            "isGold": 0,
+            "isMonster": 0,
+            "isHole": 0,
+            "isWind": false,
+            "isBones": false,
+            "isVisiable": true,
+            "dirList": {
+                "Right": 1,
+                "Down": 2
+            }
+        },
+        "worldinfo": {
+            "newcaveopened": "0",
+            "isgoldfinded": "0",
+            "ismonsteralive": "1",
+            "tiktak": 16
+        },
+        "iagent": {
+            "arrowcount": "1",
+            "actsCostList": {
+                "Go": 1,
+                "Shoot": 10,
+                "Take": 1,
+                "onLeft": 0.1,
+                "onRight": 0.1,
+                "upSideDn": 0.1,
+                "noAct": 0,
+                "RockSlide": 50,
+                "KilledByMonster": 100
+            },
+            "passivMoves": [
+                "onLeft",
+                "onRight",
+                "upSideDn",
+                "noAct"
+            ],
+            "activMoves": [
+                "Go",
+                "Shoot",
+                "Take",
+                "noAct"
+            ],
+            "dirList": {
+                "Right": 1,
+                "Down": 2,
+                "Left": 3
+            },
+            "WStateUtilities": {
+                "isgoldfinded": 100,
+                "ismonsteralive": 35,
+                "newcaveopened": 5
+            },
+            "IAStateUtilities": {
+                "isagentalive": 100,
+                "legsQ": 50,
+                "arrowsQ": 5,
+                "havegold": 100
+            },
+            "worldInfo": null,
+            "allDirs": {
+                "Up": 0,
+                "Right": 1,
+                "Down": 2,
+                "Left": 3
+            },
+            "aname": "z",
+            "cavenum": "0_0",
+            "dir": "Left",
+            "legscount": "2",
+            "choosenact": "upSideDn Go",
+            "isagentalive": "1",
+            "havegold": "0",
+            "id": "4188",
+            "guid": "94"
+        },
+        "userid": 0
+    },
+    "error": null,
+    "url": null
+}
