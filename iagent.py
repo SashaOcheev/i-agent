@@ -9,23 +9,13 @@ import operator
 
 class IAgent:     
 
-    def __init__(self, textDict):
-        self._tiktak = 0
-        self._costs = {
-            "monster" : -100,
-            "hole" : -50,
-            "gold" : 100,
-            "step" : 1,
-            "open" : 2,
-        }
-        self._aname = textDict["iagent"]["aname"]
+    def __init__(self):
 
-    def Update(self, textDict, currentCave):
+    def Update(self, textDict, currentCave, caves):
         self._arrowsCount = textDict["iagent"]["arrowcount"]
-        self._direction = textDict["iagent"]["dir"]
         self._legsCount = textDict["iagent"]["legscount"]
         self._currentCave = currentCave
-        self._dirsUtility = self._currentCave.GetDirsUtilities()
+        self._dirsUtility = self._currentCave.GetDirsUtilities(caves)
 
     def _ChoosePassiveAct(self):
         onRight = {"Up": "onRight", "Down": "onLeft", "Left": "upSideDn", "Right": "noAct"}
@@ -33,7 +23,7 @@ class IAgent:
         onTop = {"Right": "onLeft", "Down": "upSideDn", "Left": "onRight", "Up": "noAct"}
         onDown = {"Up": "upSideDn", "Right": "onRight", "Left": "onLeft", "Down": "noAct"}        
         changeDir = {onRight, onLeft, onTop, onDown}        
-        passiveAct = changeDir[self._GetMaxKey()][self._direction]
+        passiveAct = changeDir[self._GetMaxKey()][self._dirsUtility]
         return passiveAct
     
     def _GetMaxKey(self):

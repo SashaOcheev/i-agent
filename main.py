@@ -2,15 +2,14 @@
 """
 Spyder Editor
 
-This is a temporary script file.
+This 
+is a temporary script file.
 """
-import pprint
+
 import requests
 import json
-import os
 
 import world
-import iagent
 
 def MakeRequest(gameid, act):
     head = 'http://mooped.net/local/its?module=game&action=agentaction&gameid=' + str(gameid) + '&act='
@@ -24,21 +23,21 @@ def SaveState(req, name):
 def GetState(req):
     json_string = str(req.text)
     return json.loads(json_string)
+    
 
-gameid = 33
+gameid = 36
 act = "noAct noAct"
+currentWorld = world.World()
+fileNumber = 0;
 req = requests.get(MakeRequest(gameid, act))
+SaveState(req, "state/"+str(fileNumber) + '.txt')    
 state = GetState(req)
-currentWorld = world.World(state["text"])
-agent = iagent.IAgent(state["text"], currentWorld.GetCave())
 
-fileNumber = 1;
 while ((state["text"])):
+    text = state["text"]
+    currentWorld.Update(text)
+    act = currentWorld.GetAct()
     req = requests.get(MakeRequest(gameid, act))
     SaveState(req, "state/"+str(fileNumber) + '.txt')    
     state = GetState(req)
-    text = state["text"]
-    currentWorld.Update(text)
-    agent.Update(text, currentWorld.GetCave())
-    act = agent.ChooseAct()
     fileNumber += 1

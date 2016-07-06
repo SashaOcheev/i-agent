@@ -1,5 +1,0 @@
-{
-    "text": null,
-    "error": "GAME IS REACHED",
-    "url": null
-}
