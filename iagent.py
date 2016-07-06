@@ -10,20 +10,25 @@ import operator
 class IAgent:     
 
     def __init__(self):
+        pass
 
-    def Update(self, textDict, currentCave, caves):
+    def Update(self, textDict, caves):
+        self._coor = (
+            int(textDict["currentcave"]["rowN"]),
+            int(textDict["currentcave"]["colN"])
+            )
         self._arrowsCount = textDict["iagent"]["arrowcount"]
         self._legsCount = textDict["iagent"]["legscount"]
-        self._currentCave = currentCave
-        self._dirsUtility = self._currentCave.GetDirsUtilities(caves)
+        self._dir = textDict["iagent"]["dir"]
+        self._dirsUtility = caves[self._coor[0]][self._coor[1]].GetDirsUtilities(caves)
 
     def _ChoosePassiveAct(self):
         onRight = {"Up": "onRight", "Down": "onLeft", "Left": "upSideDn", "Right": "noAct"}
         onLeft = {"Up": "onLeft", "Right": "upSideDn", "Down": "onRight", "Left": "noAct"}
         onTop = {"Right": "onLeft", "Down": "upSideDn", "Left": "onRight", "Up": "noAct"}
         onDown = {"Up": "upSideDn", "Right": "onRight", "Left": "onLeft", "Down": "noAct"}        
-        changeDir = {onRight, onLeft, onTop, onDown}        
-        passiveAct = changeDir[self._GetMaxKey()][self._dirsUtility]
+        chooseDir = {"Right" : onRight, "Left" : onLeft, "Up" : onTop, "Down" : onDown}        
+        passiveAct = chooseDir[self._GetMaxKey()][self._dir]
         return passiveAct
     
     def _GetMaxKey(self):
@@ -32,9 +37,10 @@ class IAgent:
         for i in self._dirsUtility.keys():
             if self._dirsUtility[i] == maxItem:
                 maxItems.append(i)
-        return maxItems[random.randint(0, len(maxItems))]
+        return maxItems[random.randint(0, len(maxItems) - 1)]
 
-    def ChooseAct(self):
-        if self._currentCave.IsGold():
+    def ChooseAct(self, caves):
+        isGold = caves[self._coor[0]][self._coor[1]].IsGold()
+        if isGold:
             return "noAct Take"
         return self._ChoosePassiveAct() + " Go"

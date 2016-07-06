@@ -30,10 +30,10 @@ class World:
         self._currentCaveCoor = (int(curCaveInfo["rowN"]), int(curCaveInfo["colN"]))
         self.GetCave().Update(curCaveInfo)
         self._SetUtilities()
-        self._agent.Update(dictText, self.GetCave(), self._caves)
+        self._agent.Update(dictText, self._caves)
         
     def GetAct(self):
-        return self._agent.ChooseAct()
+        return self._agent.ChooseAct(self._caves)
     
     def _SetChances(self):
         for i in self._caves:
@@ -42,7 +42,7 @@ class World:
                 "gold" : 1.0 / self._GetUnopened(),
                 "step" : 1.0,
                 "open" : int(j.IsVisiable()),
-                "monster" : 0#TODO
+                "monster" : 0,#TODO
                 "hole" : 0#TODO
                 })
 

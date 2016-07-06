@@ -25,7 +25,7 @@ def GetState(req):
     return json.loads(json_string)
     
 
-gameid = 36
+gameid = 93
 act = "noAct noAct"
 currentWorld = world.World()
 fileNumber = 0;

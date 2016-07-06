@@ -11,6 +11,7 @@ class Cave:
         self._coor = coor
         self._isVisiable = False
         self._dirList = []
+        self._chances = {}
     
     def Update(self, caveDict):
         self._isVisiable = True
@@ -19,7 +20,7 @@ class Cave:
         self._isHole = bool(int(caveDict["isHole"]))
         self._isBones = bool(int(caveDict["isBones"]))
         self._isWind = bool(int(caveDict["isWind"]))
-        self._dirList = caveDict["dirList"].keys()        
+        self._dirList = caveDict["dirList"].keys()    
   
     def SetChances(self, chances):
         for key in chances.keys():
