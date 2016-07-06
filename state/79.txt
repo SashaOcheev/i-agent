@@ -1,5 +1,0 @@
-{
-    "text": null,
-    "error": "GAME OVER, reached the limit of steps",
-    "url": null
-}
